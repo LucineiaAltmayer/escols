@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import modelo.Escola;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Administrador
@@ -21,7 +24,7 @@ public class EscolaDao {
             ps.setString(2, objeto.getNome());
             ps.setString(3, objeto.getEndereco());
             ps.setInt(4, objeto.getAlunos());
-            ps.setInt(5, objeto.getArea());
+            ps.setDouble(5, objeto.getArea());
             ps.executeUpdate();
             return true;
         } catch (SQLException | ClassNotFoundException ex) {
@@ -35,7 +38,7 @@ public class EscolaDao {
         objeto.setNome("jesus");
         objeto.setEndereco("jesus");
         objeto.setAlunos(30);
-        objeto.setArea(111);
+        objeto.setArea(15.45);
         
         boolean resultado = inserir(objeto);
         if (resultado) {
@@ -52,7 +55,7 @@ public class EscolaDao {
             ps.setString(2, objeto.getSigla());
             ps.setString(3, objeto.getEndereco());
             ps.setInt(4, objeto.getAlunos());
-            ps.setInt(5, objeto.getArea());
+            ps.setDouble(5, objeto.getArea());
             ps.setInt(6, objeto.getCodigo());
             ps.executeUpdate();
             return true;
@@ -73,4 +76,30 @@ public class EscolaDao {
             return false;
         }
     }
+      public static List<Escola> consultar() {
+        List<Escola> resultados = new ArrayList<>();
+        //editar o SQL conforme a entidade
+        String sql = "SELECT codigo, nome, endereco, sigla, alunos, area descricao FROM escola";
+        PreparedStatement ps;
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Escola objeto = new Escola();
+                //definir um set para cada atributo da entidade, cuidado com o tipo
+                objeto.setCodigo(rs.getInt("codigo"));
+                objeto.setNome(rs.getString("nome"));
+                objeto.setEndereco(rs.getString("descricao"));
+                objeto.setSigla(rs.getString("sigla"));
+                objeto.setAlunos(rs.getInt("alunos"));
+                objeto.setArea(rs.getDouble("area"));
+                
+                resultados.add(objeto);//não mexa nesse, ele adiciona o objeto na lista
+            }
+            return resultados;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+}
 }

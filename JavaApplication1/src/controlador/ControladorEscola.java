@@ -9,6 +9,11 @@ import javax.swing.JOptionPane;
 import modelo.Escola;
 import tela.manutencao.ManutencaoEscola;
 import tela.manutencao.ManutencaoEscola;
+import java.util.List;
+
+import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,7 +25,7 @@ public class ControladorEscola {
         Escola objeto = new Escola();
         objeto.setSigla(man.jtfSigla.getText());
         objeto.setNome(man.jtfNome.getText());
-        objeto.setArea(Integer.parseInt (man.jtfArea.getText()));
+        objeto.setArea(Double.parseDouble(man.jtfArea.getText()));
         objeto.setAlunos(Integer.parseInt (man.jtfAlunos.getText()));
         objeto.setEndereco(man.jtfEndereco.getText());
         
@@ -39,7 +44,7 @@ public class ControladorEscola {
         objeto.setNome(man.jtfNome.getText());
         objeto.setSigla(man.jtfSigla.getText());
         objeto.setEndereco(man.jtfEndereco.getText());
-        objeto.setArea(Integer.parseInt(man.jtfArea.getText()));
+        objeto.setArea(Double.parseDouble(man.jtfArea.getText()));
         objeto.setAlunos(Integer.parseInt(man.jtfAlunos.getText()));
         
         boolean resultado = EscolaDao.alterar(objeto);
@@ -60,5 +65,29 @@ public class ControladorEscola {
         } else {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
+    }
+   public static void atualizarTabela(JTable tabela) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        //definindo o cabeçalho da tabela
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nome");
+        modelo.addColumn("Endereço");
+        modelo.addColumn("Sigla");
+        modelo.addColumn("Numero de Alunos");
+        modelo.addColumn("Área");
+        List<Escola> resultados = EscolaDao.consultar();
+        for (Escola objeto : resultados) {
+            Vector linha = new Vector();
+            
+            //definindo o conteúdo da tabela
+            linha.add(objeto.getCodigo());
+            linha.add(objeto.getNome());
+            linha.add(objeto.getEndereco());
+            linha.add(objeto.getSigla());
+            linha.add(objeto.getAlunos());
+            linha.add(objeto.getArea());
+            modelo.addRow(linha); //adicionando a linha na tabela
+        }
+        tabela.setModel(modelo);
     }
 }

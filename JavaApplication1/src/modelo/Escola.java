@@ -15,28 +15,11 @@ public class Escola {
     private String Sigla;
     private Integer Codigo;
     private Integer Alunos;
-   private Integer Area;
-
-    public Integer getAlunos() {
-        return Alunos;
-    }
-
-    public void setAlunos(Integer Alunos) {
-        this.Alunos = Alunos;
-    }
-
-
-    public Integer getArea() {
-        return Area;
-    }
-
-    public void setArea(Integer Area) {
-        this.Area = Area;
-    }
+   private  Double Area;
 
     @Override
     public String toString() {
-        return Nome;
+        return Endereco;
     }
 
     public String getNome() {
@@ -70,5 +53,21 @@ public class Escola {
     public void setCodigo(Integer Codigo) {
         this.Codigo = Codigo;
     }
-    
+
+    public Integer getAlunos() {
+        return Alunos;
+    }
+
+    public void setAlunos(Integer Alunos) {
+        this.Alunos = Alunos;
+    }
+
+    public Double getArea() {
+        return Area;
+    }
+
+    public void setArea(Double Area) {
+        this.Area = Area;
+    }
+
 }
